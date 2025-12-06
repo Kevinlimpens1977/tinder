@@ -26,17 +26,39 @@ export default function NewDishPage() {
 
   useEffect(() => {
     checkAuth()
+    
+    const handlePaste = (e: ClipboardEvent) => {
+      const items = e.clipboardData?.items
+      if (!items) return
+
+      for (const item of items) {
+        if (item.type.indexOf('image') !== -1) {
+          const file = item.getAsFile()
+          if (file) {
+            setImageFile(file)
+            const reader = new FileReader()
+            reader.onloadend = () => {
+              setImagePreview(reader.result as string)
+            }
+            reader.readAsDataURL(file)
+          }
+        }
+      }
+    }
+
+    window.addEventListener('paste', handlePaste)
+    return () => window.removeEventListener('paste', handlePaste)
   }, [])
 
-  const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession()
+  const checkAuth = () => {
+    const isAuthenticated = localStorage.getItem('admin_authenticated')
     
-    if (!session) {
+    if (!isAuthenticated) {
       router.push('/admin/login')
       return
     }
     
-    setUser(session.user)
+    setUser({ email: 'admin' })
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

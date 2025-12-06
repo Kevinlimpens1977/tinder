@@ -17,15 +17,15 @@ export default function AdminDashboard() {
     loadDishes()
   }, [])
 
-  const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession()
+  const checkAuth = () => {
+    const isAuthenticated = localStorage.getItem('admin_authenticated')
     
-    if (!session) {
+    if (!isAuthenticated) {
       router.push('/admin/login')
       return
     }
     
-    setUser(session.user)
+    setUser({ email: 'admin' })
   }
 
   const loadDishes = async () => {
@@ -47,8 +47,8 @@ export default function AdminDashboard() {
     }
   }
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut()
+  const handleLogout = () => {
+    localStorage.removeItem('admin_authenticated')
     router.push('/admin/login')
   }
 

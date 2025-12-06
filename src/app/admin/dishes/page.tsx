@@ -23,15 +23,15 @@ export default function DishesPage() {
     filterDishes()
   }, [filter, categoryFilter])
 
-  const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession()
+  const checkAuth = () => {
+    const isAuthenticated = localStorage.getItem('admin_authenticated')
     
-    if (!session) {
+    if (!isAuthenticated) {
       router.push('/admin/login')
       return
     }
     
-    setUser(session.user)
+    setUser({ email: 'admin' })
   }
 
   const loadDishes = async () => {
