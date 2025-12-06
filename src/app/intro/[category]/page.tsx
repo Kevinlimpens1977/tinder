@@ -4,13 +4,13 @@ import { Header, PrimaryButton, SecondaryButton } from '@/components'
 import { Category, CATEGORIES } from '@/types'
 
 interface IntroPageProps {
-  params: {
+  params: Promise<{
     category: Category
-  }
+  }>
 }
 
-export default function IntroPage({ params }: IntroPageProps) {
-  const { category } = params
+export default async function IntroPage({ params }: IntroPageProps) {
+  const { category } = await params
   
   // Validate category
   if (!CATEGORIES.find(cat => cat.value === category)) {

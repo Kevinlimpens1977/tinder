@@ -1,0 +1,38 @@
+-- Voorgerechten
+INSERT INTO dishes (category, name, subtitle, ingredients, preparation, image_url) VALUES
+('voor', 'Carpaccio van Ossenhaas', 'Klassieke Italiaanse starter', 'Ossenhaas, Parmezaanse kaas, Pijnboompitten, Rucola, Truffelmayonaise', 'Snijd het vlees dun, garneer met de overige ingrediënten.', 'https://images.unsplash.com/photo-1546039939-41151c0f2263?auto=format&fit=crop&w=800&q=80'),
+('voor', 'Tomatensoep met Balletjes', 'Ouderwets lekker', 'Tomaten, Gehakt, Ui, Knoflook, Room', 'Kook de tomaten, pureer de soep, voeg balletjes toe.', 'https://images.unsplash.com/photo-1547592166-23acbe3a624b?auto=format&fit=crop&w=800&q=80'),
+('voor', 'Garnalencocktail', 'Feestelijke klassieker', 'Hollandse garnalen, Whiskysaus, IJsbergsla, Citroen', 'Meng de garnalen met saus, serveer op een bedje van sla.', 'https://images.unsplash.com/photo-1551248429-40975aa4de74?auto=format&fit=crop&w=800&q=80'),
+('voor', 'Vitello Tonnato', 'Zacht kalfsvlees met tonijnsaus', 'Kalfsmuis, Tonijn, Kappertjes, Ansjovis, Mayonaise', 'Braad het vlees, maak de saus, serveer koud.', 'https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=800&q=80'),
+('voor', 'Geitenkaas Salade', 'Fris en vegetarisch', 'Geitenkaas, Walnoten, Honing, Spekjes (optioneel), Gemengde sla', 'Bak de geitenkaas kort, serveer op sla met noten en honing.', 'https://images.unsplash.com/photo-1564834724105-918b73d1b9e0?auto=format&fit=crop&w=800&q=80'),
+('voor', 'Gerookte Zalm Bonbon', 'Luxe voorgerecht', 'Gerookte zalm, Roomkaas, Bieslook, Dille', 'Vul de zalm met roomkaas, vouw dicht als een bonbon.', 'https://images.unsplash.com/photo-1519708227418-c8fd9a3a27cc?auto=format&fit=crop&w=800&q=80'),
+('voor', 'Champignons Dordogne', 'Gepaneerde champignons', 'Champignons, Bierbeslag, Knoflooksaus', 'Haal champignons door beslag, frituur goudbruin.', 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80'),
+('voor', 'Bruschetta Pomodori', 'Italiaans broodje', 'Stokbrood, Tomaten, Knoflook, Basilicum, Olijfolie', 'Rooster brood, beleg met tomatenmengsel.', 'https://images.unsplash.com/photo-1572695157363-bc31c5d53162?auto=format&fit=crop&w=800&q=80'),
+('voor', 'Uiensoep', 'Franse klassieker', 'Uien, Runderbouillon, Kaas, Stokbrood', 'Fruit uien langzaam, voeg bouillon toe, gratineer met kaas.', 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=800&q=80'),
+('voor', 'Meloen met Ham', 'Simpel en lekker', 'Galia meloen, Parmaham', 'Snijd meloen in parten, wikkel in ham.', 'https://images.unsplash.com/photo-1519996529931-28324d1a2924?auto=format&fit=crop&w=800&q=80');
+
+-- Hoofdgerechten
+INSERT INTO dishes (category, name, subtitle, ingredients, preparation, image_url) VALUES
+('hoofd', 'Biefstuk met Pepersaus', 'Mals vlees met pittige saus', 'Biefstuk, Peperkorrels, Room, Cognac', 'Bak biefstuk, maak saus in de pan.', 'https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=800&q=80'),
+('hoofd', 'Zalm uit de Oven', 'Gezond en makkelijk', 'Zalmfilet, Citroen, Dille, Olijfolie', 'Besprenkel zalm met olie en kruiden, bak in oven.', 'https://images.unsplash.com/photo-1467003909585-2f8a7270028d?auto=format&fit=crop&w=800&q=80'),
+('hoofd', 'Kiprollade', 'Voor de hele familie', 'Kiprollade, Champignons, Roomsaus', 'Braad de rollade, serveer met saus.', 'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?auto=format&fit=crop&w=800&q=80'),
+('hoofd', 'Varkenshaas met Champignonroomsaus', 'Klassieker', 'Varkenshaas, Champignons, Room, Witte wijn', 'Bak vlees rosé, maak saus met champignons.', 'https://images.unsplash.com/photo-1432139555190-58524dae6a55?auto=format&fit=crop&w=800&q=80'),
+('hoofd', 'Vegetarische Lasagne', 'Rijk gevuld', 'Lasagnebladen, Spinazie, Ricotta, Tomatensaus, Kaas', 'Bouw lagen op, bak in oven.', 'https://images.unsplash.com/photo-1574868298298-48f636b1cd58?auto=format&fit=crop&w=800&q=80'),
+('hoofd', 'Beenham met Honing-Mosterd', 'Feestelijk gebraad', 'Beenham, Honing, Mosterd, Kruidnagel', 'Glaceer ham, bak in oven.', 'https://images.unsplash.com/photo-1514326640560-7d063ef2aed5?auto=format&fit=crop&w=800&q=80'),
+('hoofd', 'Gourmetten', 'Gezellig samen tafelen', 'Diverse vleessoorten, Groenten, Sauzen, Stokbrood', 'Zet alles op tafel en bakken maar!', 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80'),
+('hoofd', 'Risotto met Paddenstoelen', 'Romig Italiaans', 'Risottorijst, Paddenstoelen, Parmezaan, Witte wijn', 'Roer rijst met bouillon, voeg paddenstoelen toe.', 'https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&w=800&q=80'),
+('hoofd', 'Eendenborst met Sinaasappelsaus', 'Luxe gevogelte', 'Eendenborst, Sinaasappel, Grand Marnier', 'Bak eend op huid, maak saus van braadvocht.', 'https://images.unsplash.com/photo-1580476262716-6b3693166861?auto=format&fit=crop&w=800&q=80'),
+('hoofd', 'Spareribs', 'Lekker kluiven', 'Spareribs, Marinade, Knoflooksaus', 'Marineer ribs, gaar langzaam in oven of BBQ.', 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80');
+
+-- Nagerechten
+INSERT INTO dishes (category, name, subtitle, ingredients, preparation, image_url) VALUES
+('na', 'Dame Blanche', 'De klassieker', 'Vanille-ijs, Warme chocoladesaus, Slagroom', 'Schep ijs, giet saus erover, toef slagroom.', 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=800&q=80'),
+('na', 'Tiramisu', 'Italiaans dessert', 'Lange vingers, Mascarpone, Espresso, Amaretto, Cacao', 'Doop vingers in koffie, laagjes maken met mascarpone.', 'https://images.unsplash.com/photo-1571875257727-256c39da42af?auto=format&fit=crop&w=800&q=80'),
+('na', 'Crème Brûlée', 'Franse vanillecustard', 'Room, Eierdooiers, Vanille, Suiker', 'Maak custard, bak in oven, brand suikerlaagje.', 'https://images.unsplash.com/photo-1470324161839-ce2bb6fa6bc3?auto=format&fit=crop&w=800&q=80'),
+('na', 'Chocolademousse', 'Luchtig en rijk', 'Pure chocolade, Eieren, Suiker, Slagroom', 'Smelt chocolade, spatel door geklopt eiwit en room.', 'https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?auto=format&fit=crop&w=800&q=80'),
+('na', 'Aardbeien Romanoff', 'Zomers fruit', 'Aardbeien, Slagroom, Vodka (optioneel)', 'Marineer aardbeien, serveer met room.', 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=800&q=80'),
+('na', 'Kaasplankje', 'Hartige afsluiter', 'Diverse kazen, Vijgenbrood, Druiven, Port', 'Selecteer mooie kazen, serveer op plank.', 'https://images.unsplash.com/photo-1631379578550-7038263db699?auto=format&fit=crop&w=800&q=80'),
+('na', 'IJs met Vers Fruit', 'Lekker fris', 'Diverse soorten ijs, Seizoensfruit', 'Maak een mooie coupe.', 'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?auto=format&fit=crop&w=800&q=80'),
+('na', 'Panna Cotta', 'Italiaanse roompudding', 'Room, Suiker, Gelatine, Rood fruit', 'Kook room, voeg gelatine toe, laat opstijven.', 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=800&q=80'),
+('na', 'Appelstrudel', 'Warm uit de oven', 'Bladerdeeg, Appels, Rozijnen, Kaneel, Vanillesaus', 'Vul deeg met appelmengsel, bak goudbruin.', 'https://images.unsplash.com/photo-1519915028121-7d3463d20b13?auto=format&fit=crop&w=800&q=80'),
+('na', 'Grand Dessert', 'Van alles wat', 'Proeverij van diverse kleine toetjes', 'Maak kleine porties van verschillende desserts.', 'https://images.unsplash.com/photo-1551024601-5637ade98e30?auto=format&fit=crop&w=800&q=80');
