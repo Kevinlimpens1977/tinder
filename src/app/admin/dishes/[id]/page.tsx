@@ -349,7 +349,7 @@ export default function EditDishPage() {
                 id: dishId,
                 name: formData.name || 'Naam van gerecht',
                 subtitle: formData.subtitle || 'Subtitel',
-                category: formData.category,
+                category: formData.category || 'voor',
                 ingredients: formData.ingredients || 'Ingrediënten...',
                 preparation: formData.preparation || 'Bereiding...',
                 image_url: imagePreview || formData.image_url || originalImage || '',
