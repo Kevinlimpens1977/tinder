@@ -6,8 +6,8 @@ import { motion } from 'framer-motion'
 import { runTournament, DishWithScore, TournamentResult } from '@/lib/tournament'
 import { Category, CATEGORIES } from '@/types'
 import { PageContainer } from '@/components/ui/PageContainer'
-import { GlassCard } from '@/components/ui/GlassCard'
 import { Snowfall } from '@/components/Snowfall'
+import { RefreshCw } from 'lucide-react'
 import Image from 'next/image'
 
 export default function DuelPage() {
@@ -22,6 +22,7 @@ export default function DuelPage() {
   const [tournamentResult, setTournamentResult] = useState<TournamentResult | null>(null)
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
+  const [noSelection, setNoSelection] = useState(false)
 
   useEffect(() => {
     const stored = localStorage.getItem(`dishes_${category}`)
@@ -30,8 +31,13 @@ export default function DuelPage() {
       const parsedDishes: DishWithScore[] = JSON.parse(stored)
       const filteredDishes = parsedDishes.filter(dish => dish.score > 0)
 
-      if (filteredDishes.length <= 1) {
-        // Skip tournament if 0 or 1 dish
+      if (filteredDishes.length === 0) {
+        setNoSelection(true)
+        setIsLoading(false)
+        return
+      }
+
+      if (filteredDishes.length === 1) {
         const result: TournamentResult = {
           rankedDishes: filteredDishes,
           matches: []
@@ -61,7 +67,46 @@ export default function DuelPage() {
     }
   }
 
-  if (isLoading || !tournamentResult) return null
+  const handleRestart = () => {
+    router.push(`/swipe/${category}`)
+  }
+
+  if (isLoading) return null
+
+  if (noSelection) {
+    return (
+      <PageContainer>
+        <Snowfall />
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white rounded-[32px] p-8 shadow-xl border-4 border-[#D4AF37] max-w-sm w-full flex flex-col items-center gap-6"
+          >
+            <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mb-2">
+              <span className="text-4xl">🤷‍♂️</span>
+            </div>
+            <div>
+              <h2 className="text-2xl font-black text-gray-900 mb-2">Geen Keuze Gemaakt</h2>
+              <p className="text-gray-600 font-medium leading-relaxed">
+                Je hebt geen enkel gerecht leuk gevonden! Swipe opnieuw en kies minimaal 1 gerecht.
+              </p>
+            </div>
+
+            <button
+              onClick={handleRestart}
+              className="w-full py-4 bg-[#D4AF37] hover:bg-[#C5A028] text-white rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-2 hover:scale-[1.02] transition-all"
+            >
+              <RefreshCw className="w-5 h-5" />
+              Opnieuw Swipen
+            </button>
+          </motion.div>
+        </div>
+      </PageContainer>
+    )
+  }
+
+  if (!tournamentResult) return null
 
   const currentMatch = tournamentResult.matches[currentMatchIndex]
   if (!currentMatch) return null
