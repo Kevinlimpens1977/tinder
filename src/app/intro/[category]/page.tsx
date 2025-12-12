@@ -7,6 +7,7 @@ import { GlassCard } from '@/components/ui/GlassCard'
 import { Category, CATEGORIES } from '@/types'
 import { motion } from 'framer-motion'
 import { Salad, UtensilsCrossed, CakeSlice } from 'lucide-react'
+import { Snowfall } from '@/components/Snowfall'
 
 export default function IntroPage() {
   const params = useParams()
@@ -48,6 +49,7 @@ export default function IntroPage() {
 
   return (
     <PageContainer>
+      <Snowfall />
       <div className="flex-1 flex flex-col items-center justify-center p-6 w-full">
         <GlassCard className="w-full max-w-sm space-y-12 py-16 text-center border-[3px] border-[#D4AF37] shadow-[0_0_20px_rgba(212,175,55,0.3)]">
 

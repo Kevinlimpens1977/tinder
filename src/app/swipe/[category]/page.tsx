@@ -7,6 +7,7 @@ import { Category, CATEGORIES, DishWithScore, SwipeState, SWIPE_DIRECTIONS } fro
 import { SwipeCard } from '@/components/SwipeCard'
 import { PageContainer } from '@/components/ui/PageContainer'
 import { AnimatePresence } from 'framer-motion'
+import { Snowfall } from '@/components/Snowfall'
 
 export default function SwipePage() {
   const params = useParams()
@@ -110,6 +111,7 @@ export default function SwipePage() {
 
   return (
     <PageContainer>
+      <Snowfall />
       {/* Header / Progress - Minimal */}
       <div className="absolute top-4 left-0 w-full px-6 z-20 flex justify-between items-center bg-transparent">
         <button onClick={() => router.back()} className="w-10 h-10 bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center text-gray-700 shadow-sm">

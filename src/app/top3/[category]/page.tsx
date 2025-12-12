@@ -5,6 +5,7 @@ import { useRouter, useParams, notFound } from 'next/navigation'
 import { PageContainer } from '@/components/ui/PageContainer'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { getTop3, DishWithScore, TournamentResult } from '@/lib/tournament'
+import { Snowfall } from '@/components/Snowfall'
 import { Category, CATEGORIES, CategoryResult } from '@/types'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -81,6 +82,7 @@ export default function Top3Page() {
 
   return (
     <PageContainer>
+      <Snowfall />
       <div className="absolute top-8 w-full text-center z-20">
         <h1 className="text-3xl font-bold text-gray-800 drop-shadow-sm">Jouw Top 3</h1>
         <p className="text-gray-600 text-sm">Tik op je favoriet</p>
@@ -95,8 +97,8 @@ export default function Top3Page() {
             transition={{ delay: index * 0.1 }}
             onClick={() => setSelectedWinner(index)}
             className={cn(
-              "relative rounded-[24px] overflow-hidden cursor-pointer border-4 transition-all duration-300 h-32 md:h-40",
-              selectedWinner === index ? "border-green-400 scale-105 shadow-2xl z-10" : "border-white/50 bg-white/40 opacity-90 grayscale-[0.3]"
+              "relative rounded-[24px] overflow-hidden cursor-pointer border-[3px] transition-all duration-300 h-32 md:h-40",
+              selectedWinner === index ? "border-[#D4AF37] scale-105 shadow-[0_0_15px_rgba(212,175,55,0.4)] z-10" : "border-[#D4AF37]/30 bg-white/40 opacity-90 grayscale-[0.3]"
             )}
           >
             <div className="absolute inset-0">
@@ -115,7 +117,7 @@ export default function Top3Page() {
               </div>
             </div>
             {selectedWinner === index && (
-              <div className="absolute right-6 top-1/2 -translate-y-1/2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-lg">
+              <div className="absolute right-6 top-1/2 -translate-y-1/2 w-8 h-8 bg-[#D4AF37] rounded-full flex items-center justify-center text-white text-lg shadow-lg">
                 ✓
               </div>
             )}
@@ -127,7 +129,7 @@ export default function Top3Page() {
         <button
           onClick={handleConfirmWinner}
           disabled={selectedWinner === null}
-          className="w-full bg-gray-900 text-white font-bold text-lg py-5 rounded-[20px] shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
+          className="w-full bg-[#D4AF37] hover:bg-[#C5A028] text-white font-bold text-lg py-5 rounded-[20px] shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95 border-2 border-white/20"
         >
           {selectedWinner !== null ? 'Bevestig Winnaar' : 'Selecteer een winnaar'}
         </button>

@@ -6,7 +6,7 @@ import { PageContainer } from '@/components/ui/PageContainer'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { supabase } from '@/lib/supabase'
 import { motion } from 'framer-motion'
-import { Header } from '@/components'
+import { Snowfall } from '@/components/Snowfall'
 
 export default function ResultsPage() {
     const [results, setResults] = useState<any[]>([])
@@ -42,13 +42,12 @@ export default function ResultsPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <Header title="Inzendingen" />
-
-            <main className="max-w-4xl mx-auto px-4 py-8 pb-20">
+        <PageContainer>
+            <Snowfall />
+            <div className="flex-1 flex flex-col w-full max-w-4xl mx-auto py-8 pb-20 overflow-y-auto h-full relative z-10">
                 <div className="text-center mb-10">
-                    <h1 className="text-3xl font-black text-gray-900 mb-2">Ingezonden Menu's</h1>
-                    <p className="text-gray-500">
+                    <h1 className="text-3xl font-black text-white drop-shadow-md mb-2">Ingezonden Menu's</h1>
+                    <p className="text-white/80 font-medium">
                         Bekijk wat anderen hebben gekozen!
                     </p>
                 </div>
@@ -99,8 +98,9 @@ export default function ResultsPage() {
                         </button>
                     </Link>
                 </div>
-            </main>
+            </div>
         </div>
+        </PageContainer >
     )
 }
 
