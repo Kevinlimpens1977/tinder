@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams, notFound } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { runTournament, DishWithScore, TournamentResult } from '@/lib/tournament'
 import { Category, CATEGORIES } from '@/types'
 import { PageContainer } from '@/components/ui/PageContainer'
@@ -75,14 +75,14 @@ export default function DuelPage() {
         </span>
       </div>
 
-      <div className="flex-1 flex flex-col gap-6 py-4 relative w-full h-full max-w-md mx-auto z-10">
+      <div className="flex flex-col gap-4 relative w-full h-[75vh] min-h-[500px] max-w-md mx-auto z-10 mt-12">
         <DishOption
           dish={currentMatch.dish1}
           onClick={() => handleChoice(currentMatch.dish1)}
           label="A"
         />
 
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 bg-white rounded-full p-3 shadow-[0_0_20px_rgba(212,175,55,0.4)] border-4 border-[#D4AF37]">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 bg-white rounded-full p-3 shadow-[0_0_20px_rgba(212,175,55,0.5)] border-4 border-[#D4AF37]">
           <span className="text-xl font-black text-[#D4AF37]">VS</span>
         </div>
 
@@ -104,7 +104,7 @@ function DishOption({ dish, onClick, label }: { dish: DishWithScore, onClick: ()
       className="flex-1 relative rounded-[32px] overflow-hidden bg-white shadow-xl cursor-pointer group border-4 border-[#D4AF37] hover:scale-[1.02] active:scale-95 transition-all flex flex-col"
       onClick={onClick}
     >
-      <div className="h-[55%] w-full bg-gray-50 relative">
+      <div className="h-[55%] w-full bg-gray-50 relative shrink-0">
         <Image
           src={dish.image_url}
           alt={dish.name}
@@ -117,7 +117,7 @@ function DishOption({ dish, onClick, label }: { dish: DishWithScore, onClick: ()
         </div>
       </div>
 
-      <div className="h-[45%] p-5 flex flex-col items-center text-center justify-center bg-white relative z-0">
+      <div className="flex-1 p-4 flex flex-col items-center text-center justify-center bg-white relative z-0">
         <h3 className="text-lg font-black text-gray-900 leading-snug mb-2 line-clamp-2">{dish.name}</h3>
         {dish.subtitle && (
           <p className="text-gray-500 text-xs font-medium line-clamp-3 leading-relaxed opacity-80">{dish.subtitle}</p>
