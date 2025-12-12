@@ -54,7 +54,7 @@ export default function DuelPage() {
     const nextIndex = currentMatchIndex + 1
 
     if (nextIndex >= tournamentResult.matches.length) {
-      localStorage.setItem(`tournament_${category}`, JSON.stringify(tournamentResult)) // Note: In a real app we'd update scores
+      localStorage.setItem(`tournament_${category}`, JSON.stringify(tournamentResult))
       router.push(`/top3/${category}`)
     } else {
       setCurrentMatchIndex(nextIndex)
@@ -70,19 +70,27 @@ export default function DuelPage() {
     <PageContainer>
       <Snowfall />
       <div className="absolute top-4 w-full text-center z-20">
-        <span className="bg-white/30 backdrop-blur px-4 py-1 rounded-full text-sm font-bold text-gray-800">
+        <span className="bg-white/30 backdrop-blur px-4 py-1 rounded-full text-sm font-bold text-gray-800 shadow-sm">
           Duel {currentMatchIndex + 1} / {tournamentResult.matches.length}
         </span>
       </div>
 
-      <div className="h-full flex flex-col gap-4 py-8 relative">
-        <DishOption dish={currentMatch.dish1} onClick={() => handleChoice(currentMatch.dish1)} label="A" />
+      <div className="flex-1 flex flex-col gap-6 py-4 relative w-full h-full max-w-md mx-auto z-10">
+        <DishOption
+          dish={currentMatch.dish1}
+          onClick={() => handleChoice(currentMatch.dish1)}
+          label="A"
+        />
 
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 bg-white rounded-full p-4 shadow-[0_0_20px_rgba(212,175,55,0.4)] border-4 border-[#D4AF37]">
-          <span className="text-2xl font-black text-[#D4AF37]">VS</span>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 bg-white rounded-full p-3 shadow-[0_0_20px_rgba(212,175,55,0.4)] border-4 border-[#D4AF37]">
+          <span className="text-xl font-black text-[#D4AF37]">VS</span>
         </div>
 
-        <DishOption dish={currentMatch.dish2} onClick={() => handleChoice(currentMatch.dish2)} label="B" />
+        <DishOption
+          dish={currentMatch.dish2}
+          onClick={() => handleChoice(currentMatch.dish2)}
+          label="B"
+        />
       </div>
     </PageContainer>
   )
@@ -91,30 +99,29 @@ export default function DuelPage() {
 function DishOption({ dish, onClick, label }: { dish: DishWithScore, onClick: () => void, label: string }) {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="flex-1 relative rounded-[32px] overflow-hidden bg-white shadow-xl cursor-pointer group border-4 border-[#D4AF37] hover:scale-[1.02] active:scale-95 transition-all"
+      className="flex-1 relative rounded-[32px] overflow-hidden bg-white shadow-xl cursor-pointer group border-4 border-[#D4AF37] hover:scale-[1.02] active:scale-95 transition-all flex flex-col"
       onClick={onClick}
     >
-      <div className="h-[60%] w-full bg-gray-50 p-4 relative flex items-center justify-center">
-        <div className="relative w-full h-full">
-          <Image
-            src={dish.image_url}
-            alt={dish.name}
-            fill
-            className="object-contain drop-shadow-md transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 768px) 50vw, 300px"
-          />
-        </div>
-
-        <div className="absolute top-3 left-3 bg-[#D4AF37] rounded-full w-8 h-8 flex items-center justify-center shadow-lg text-sm font-bold text-white">
+      <div className="h-[55%] w-full bg-gray-50 relative">
+        <Image
+          src={dish.image_url}
+          alt={dish.name}
+          fill
+          className="object-cover transition-transform duration-700 group-hover:scale-110"
+          sizes="(max-width: 768px) 50vw, 300px"
+        />
+        <div className="absolute top-3 left-3 bg-[#D4AF37] rounded-full w-8 h-8 flex items-center justify-center shadow-lg text-sm font-bold text-white z-10 border border-white/20">
           {label}
         </div>
       </div>
 
-      <div className="h-[40%] p-4 flex flex-col items-center text-center justify-center bg-white">
-        <h3 className="text-lg font-black text-gray-900 leading-tight mb-2">{dish.name}</h3>
-        {/* <p className="text-gray-500 text-xs font-medium line-clamp-2">{dish.subtitle}</p> */}
+      <div className="h-[45%] p-5 flex flex-col items-center text-center justify-center bg-white relative z-0">
+        <h3 className="text-lg font-black text-gray-900 leading-snug mb-2 line-clamp-2">{dish.name}</h3>
+        {dish.subtitle && (
+          <p className="text-gray-500 text-xs font-medium line-clamp-3 leading-relaxed opacity-80">{dish.subtitle}</p>
+        )}
       </div>
     </motion.div>
   )
