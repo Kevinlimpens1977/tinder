@@ -19,7 +19,6 @@ export default function ResultsPage() {
     const loadResults = async () => {
         try {
             // Fetch user menus with dish details
-            // Note: Supabase join syntax (foreign tables)
             const { data, error } = await supabase
                 .from('user_menus')
                 .select(`
@@ -44,7 +43,7 @@ export default function ResultsPage() {
     return (
         <PageContainer>
             <Snowfall />
-            <div className="flex-1 flex flex-col w-full max-w-4xl mx-auto py-8 pb-20 overflow-y-auto h-full relative z-10">
+            <div className="flex-1 flex flex-col w-full max-w-4xl mx-auto py-8 pb-20 overflow-y-auto h-full relative z-10 px-4">
                 <div className="text-center mb-10">
                     <h1 className="text-3xl font-black text-white drop-shadow-md mb-2">Ingezonden Menu's</h1>
                     <p className="text-white/80 font-medium">
@@ -55,11 +54,11 @@ export default function ResultsPage() {
                 {loading ? (
                     <div className="text-center py-20 animate-pulse">
                         <div className="text-4xl mb-4">⏳</div>
-                        <p className="text-gray-500">Laden...</p>
+                        <p className="text-white/70">Laden...</p>
                     </div>
                 ) : results.length === 0 ? (
                     <div className="text-center py-20 opacity-50">
-                        <p>Nog geen inzendingen.</p>
+                        <p className="text-white">Nog geen inzendingen.</p>
                     </div>
                 ) : (
                     <div className="grid gap-6">
@@ -93,14 +92,13 @@ export default function ResultsPage() {
 
                 <div className="fixed bottom-8 left-0 w-full flex justify-center pointer-events-none z-20">
                     <Link href="/start" className="pointer-events-auto shadow-xl">
-                        <button className="px-6 py-3 bg-gray-900 text-white rounded-full font-bold hover:scale-105 transition-transform">
+                        <button className="px-6 py-3 bg-[#D4AF37] hover:bg-[#C5A028] text-white rounded-full font-bold hover:scale-105 transition-transform border-2 border-white/20">
                             ← Terug
                         </button>
                     </Link>
                 </div>
             </div>
-        </div>
-        </PageContainer >
+        </PageContainer>
     )
 }
 
