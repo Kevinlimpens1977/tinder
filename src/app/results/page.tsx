@@ -93,7 +93,7 @@ export default function ResultsPage() {
                 )}
 
                 <div className="fixed bottom-8 left-0 w-full flex justify-center pointer-events-none z-20">
-                    <Link href="/" className="pointer-events-auto shadow-xl">
+                    <Link href="/start" className="pointer-events-auto shadow-xl">
                         <button className="px-6 py-3 bg-gray-900 text-white rounded-full font-bold hover:scale-105 transition-transform">
                             ← Terug
                         </button>

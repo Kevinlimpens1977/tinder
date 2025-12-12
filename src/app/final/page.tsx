@@ -109,7 +109,7 @@ export default function FinalPage() {
           </p>
         </motion.div>
 
-        <Link href="/" className="pb-8">
+        <Link href="/start" className="pb-8">
           <button className="px-8 py-4 bg-red-600 text-white rounded-full font-bold shadow-xl hover:scale-105 transition-transform border-2 border-white/20">
             Terug naar Start
           </button>
