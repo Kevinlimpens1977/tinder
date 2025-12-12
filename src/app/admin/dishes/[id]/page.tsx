@@ -4,13 +4,16 @@ import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 import { Header, PrimaryButton, SecondaryButton, DishCardLarge } from '@/components'
+import { Notification } from '@/components/ui/Notification'
 import { supabase, Dish, DishUpdate } from '@/lib/supabase'
+import { AnimatePresence } from 'framer-motion'
 
 export default function EditDishPage() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [notFound, setNotFound] = useState(false)
+  const [notification, setNotification] = useState<{ message: string, type: 'success' | 'error' } | null>(null)
   const router = useRouter()
   const params = useParams()
   const dishId = params.id as string
@@ -57,12 +60,12 @@ export default function EditDishPage() {
 
   const checkAuth = () => {
     const isAuthenticated = localStorage.getItem('admin_authenticated')
-    
+
     if (!isAuthenticated) {
       router.push('/admin/login')
       return
     }
-    
+
     setUser({ email: 'admin' })
   }
 
@@ -107,7 +110,7 @@ export default function EditDishPage() {
     const file = e.target.files?.[0]
     if (file) {
       setImageFile(file)
-      
+
       // Create preview
       const reader = new FileReader()
       reader.onloadend = () => {
@@ -122,10 +125,10 @@ export default function EditDishPage() {
 
     try {
       setUploading(true)
-      
+
       const fileExt = imageFile.name.split('.').pop()
       const fileName = `${Date.now()}.${fileExt}`
-      
+
       const { error: uploadError } = await supabase.storage
         .from('dish-images')
         .upload(fileName, imageFile)
@@ -140,8 +143,11 @@ export default function EditDishPage() {
         .getPublicUrl(fileName)
 
       return publicUrl
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error)
+      if (error && (error.message === 'Bucket not found' || error.error === 'Bucket not found')) {
+        setNotification({ type: 'error', message: "Opslagbucket 'dish-images' niet gevonden. Maak deze aan in Supabase." })
+      }
       return null
     } finally {
       setUploading(false)
@@ -150,9 +156,9 @@ export default function EditDishPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!formData.name || !formData.ingredients || !formData.preparation) {
-      alert('Vul alle verplichte velden in')
+      setNotification({ type: 'error', message: 'Vul alle verplichte velden in' })
       return
     }
 
@@ -160,12 +166,12 @@ export default function EditDishPage() {
 
     try {
       let imageUrl = formData.image_url
-      
+
       // Upload new image if provided
       if (imageFile) {
         const uploadedUrl = await uploadImage()
         if (!uploadedUrl) {
-          alert('Fout bij uploaden van afbeelding')
+          setNotification({ type: 'error', message: 'Fout bij uploaden van afbeelding' })
           return
         }
         imageUrl = uploadedUrl
@@ -182,13 +188,14 @@ export default function EditDishPage() {
 
       if (error) {
         console.error('Error updating dish:', error)
-        alert('Fout bij bijwerken van gerecht')
+        setNotification({ type: 'error', message: 'Fout bij bijwerken: ' + error.message })
       } else {
-        router.push('/admin/dishes')
+        setNotification({ type: 'success', message: 'Gerecht succesvol bijgewerkt!' })
+        setTimeout(() => router.push('/admin/dishes'), 1500)
       }
     } catch (error) {
       console.error('Error:', error)
-      alert('Fout bij bijwerken van gerecht')
+      setNotification({ type: 'error', message: 'Fout bij bijwerken van gerecht' })
     } finally {
       setLoading(false)
     }
@@ -231,8 +238,17 @@ export default function EditDishPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <AnimatePresence>
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={() => setNotification(null)}
+          />
+        )}
+      </AnimatePresence>
       <Header title="Gerecht Bewerken" />
-      
+
       <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Form */}
@@ -240,7 +256,7 @@ export default function EditDishPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-6">
               Gerecht Bewerken
             </h2>
-            
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -350,7 +366,7 @@ export default function EditDishPage() {
                 >
                   {loading ? 'Bijwerken...' : 'Gerecht Bijwerken'}
                 </PrimaryButton>
-                
+
                 <Link href="/admin/dishes">
                   <SecondaryButton className="flex-1">
                     Annuleren
@@ -365,8 +381,8 @@ export default function EditDishPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-6">
               Live Preview
             </h2>
-            
-            <DishCardLarge 
+
+            <DishCardLarge
               dish={{
                 id: dishId,
                 name: formData.name || 'Naam van gerecht',

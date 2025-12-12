@@ -62,6 +62,18 @@ export default function HomePage() {
         >
           "Kies met je hart, niet met je hoofd"
         </motion.p>
+
+        {/* Admin Link */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="absolute top-0 right-0 p-4"
+        >
+          <Link href="/admin" className="flex items-center gap-2 px-3 py-1.5 bg-white/40 backdrop-blur-md rounded-full text-xs font-bold text-rose-700 hover:bg-white/60 transition-all shadow-sm">
+            🔑 Admin
+          </Link>
+        </motion.div>
       </div>
     </PageContainer>
   )

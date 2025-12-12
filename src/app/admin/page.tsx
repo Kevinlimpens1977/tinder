@@ -4,12 +4,16 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Header, PrimaryButton, SecondaryButton } from '@/components'
+import { Notification } from '@/components/ui/Notification'
 import { supabase, Dish } from '@/lib/supabase'
+import { AnimatePresence } from 'framer-motion'
 
 export default function AdminDashboard() {
   const [user, setUser] = useState<any>(null)
   const [dishes, setDishes] = useState<Dish[]>([])
   const [loading, setLoading] = useState(true)
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null)
+  const [notification, setNotification] = useState<{ message: string, type: 'success' | 'error' } | null>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -19,12 +23,12 @@ export default function AdminDashboard() {
 
   const checkAuth = () => {
     const isAuthenticated = localStorage.getItem('admin_authenticated')
-    
+
     if (!isAuthenticated) {
       router.push('/admin/login')
       return
     }
-    
+
     setUser({ email: 'admin' })
   }
 
@@ -49,7 +53,7 @@ export default function AdminDashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem('admin_authenticated')
-    router.push('/admin/login')
+    router.push('/')
   }
 
   const getCategoryStats = () => {
@@ -62,6 +66,39 @@ export default function AdminDashboard() {
   }
 
   const stats = getCategoryStats()
+
+  const handleDelete = async (dish: Dish, confirmed = false) => {
+    if (!confirmed) {
+      setDeleteConfirmId(dish.id)
+      return
+    }
+
+    try {
+      // Use select() to ensure we get the deleted record back, verifying it was actually authorized/deleted
+      const { data, error } = await supabase
+        .from('dishes')
+        .delete()
+        .eq('id', dish.id)
+        .select()
+
+      if (error) {
+        console.error('Error deleting dish:', error)
+        setNotification({ type: 'error', message: 'Fout bij verwijderen: ' + error.message })
+      } else if (data && data.length === 0) {
+        // If no data returned, RLS might have silently ignored the delete or record missing
+        console.warn('Delete operation returned 0 rows. RLS might be blocking it.')
+        setNotification({ type: 'error', message: 'Kon gerecht niet verwijderen (Mogelijk RLS policy blokkade)' })
+      } else {
+        // Success
+        setDeleteConfirmId(null)
+        setDishes(current => current.filter(d => d.id !== dish.id))
+        setNotification({ type: 'success', message: 'Gerecht succesvol verwijderd' })
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      setNotification({ type: 'error', message: 'Fout bij verwijderen' })
+    }
+  }
 
   if (loading) {
     return (
@@ -79,8 +116,17 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <AnimatePresence>
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={() => setNotification(null)}
+          />
+        )}
+      </AnimatePresence>
       <Header title="Admin Dashboard" />
-      
+
       <main className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
@@ -94,7 +140,7 @@ export default function AdminDashboard() {
               </p>
             )}
           </div>
-          
+
           <div className="flex space-x-4">
             <Link href="/admin/dishes/new">
               <PrimaryButton>
@@ -165,7 +211,7 @@ export default function AdminDashboard() {
               Recente Gerechten
             </h2>
           </div>
-          
+
           {dishes.length === 0 ? (
             <div className="p-8 text-center">
               <div className="text-4xl mb-4">🍽️</div>
@@ -226,10 +272,10 @@ export default function AdminDashboard() {
                           px-2 py-1 text-xs rounded-full
                           ${dish.category === 'voor' ? 'bg-orange-100 text-orange-800' :
                             dish.category === 'hoofd' ? 'bg-green-100 text-green-800' :
-                            'bg-pink-100 text-pink-800'}
+                              'bg-pink-100 text-pink-800'}
                         `}>
                           {dish.category === 'voor' ? 'Voorgerecht' :
-                           dish.category === 'hoofd' ? 'Hoofdgerecht' : 'Nagerecht'}
+                            dish.category === 'hoofd' ? 'Hoofdgerecht' : 'Nagerecht'}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -242,12 +288,30 @@ export default function AdminDashboard() {
                         >
                           Bewerken
                         </Link>
-                        <button
-                          onClick={() => handleDelete(dish)}
-                          className="text-red-600 hover:text-red-900"
-                        >
-                          Verwijderen
-                        </button>
+                        {deleteConfirmId === dish.id ? (
+                          <div className="inline-flex items-center space-x-2">
+                            <span className="text-gray-600 text-xs mr-1">Zeker weten?</span>
+                            <button
+                              onClick={() => handleDelete(dish, true)}
+                              className="text-white bg-red-600 hover:bg-red-700 px-2 py-1 rounded text-xs transition-colors"
+                            >
+                              Ja
+                            </button>
+                            <button
+                              onClick={() => setDeleteConfirmId(null)}
+                              className="text-gray-600 hover:text-gray-800 px-2 py-1 rounded text-xs border border-gray-300 transition-colors"
+                            >
+                              Nee
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => handleDelete(dish)}
+                            className="text-red-600 hover:text-red-900 transition-colors"
+                          >
+                            Verwijderen
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -255,7 +319,7 @@ export default function AdminDashboard() {
               </table>
             </div>
           )}
-          
+
           {dishes.length > 10 && (
             <div className="px-6 py-4 border-t border-gray-200 text-center">
               <Link href="/admin/dishes" className="text-blue-600 hover:text-blue-900">
@@ -267,27 +331,4 @@ export default function AdminDashboard() {
       </main>
     </div>
   )
-
-  async function handleDelete(dish: Dish) {
-    if (!confirm(`Weet je zeker dat je "${dish.name}" wilt verwijderen?`)) {
-      return
-    }
-
-    try {
-      const { error } = await supabase
-        .from('dishes')
-        .delete()
-        .eq('id', dish.id)
-
-      if (error) {
-        console.error('Error deleting dish:', error)
-        alert('Fout bij verwijderen')
-      } else {
-        await loadDishes()
-      }
-    } catch (error) {
-      console.error('Error:', error)
-      alert('Fout bij verwijderen')
-    }
-  }
 }
